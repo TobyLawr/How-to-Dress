@@ -34,7 +34,7 @@ function getRefinedWeatherData(weather) {
      let forecastday = weather.forecast.forecastday;
 
     console.log(forecastday)
-
+    // Gets date, icon, condition, avg temp
     let refinedData = forecastday.map(({day, date}) => ({avgtemp_c: day.avgtemp_c, date, icon: day.condition.icon, condition: day.condition.text }));
     console.log(refinedData)
 }

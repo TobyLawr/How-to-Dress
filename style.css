@@ -1,3 +1,27 @@
 h1 {
-    color: red;
+    font-size: 50px;
+    color: rgb(53, 15, 205);
+
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("https://images5.alphacoders.com/132/1327980.png");
+    background-color: #cccccc;
+    margin: 0;
+}
+
+.relative {
+    display:flex;
+    height: 99%;
+    width: 90%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    /* position: relative; */
+    background-color: #12b770;
+    /* left: 300px; */
 }

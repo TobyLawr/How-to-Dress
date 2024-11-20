@@ -17,9 +17,13 @@
 
 <label for="mood">Mood:</label>
 <select id="mood">
-    <option value="happy">Happy</option>
-    <option value="relaxed">Relaxed</option>
-    <option value="adventurous">Adventurous</option>
+    <option value="Casual">Casual</option>
+    <option value="confident">Confident</option>
+    <option value="elegant">Elegant</option>
+    <option value="energetic">Energetic</option>
+    <option value="rebellious">Rebellious</option>
+    <option value="mysterious">Mysterious</option>
+    <option value="playful">Playful</option>
     <option value="formal">Formal</option>
 </select>
 
@@ -27,14 +31,16 @@
 <select id="gender">
     <option value="male">Male</option>
     <option value="female">Female</option>
-    <option value="non-binary">Non-binary</option>
-    <option value="prefer-not-to-say">Prefer not to say</option>
+
 </select>
 
-<button type="button" id ="search-button" onclick="onSearch()"> Search </button> 
+<button type="button" id ="search-button" > Search </button> 
 
 </div>
 
-<script src="/script.js" ></script>
+<div id="weather-display"></div>
+
+<script type="module" src="/clothing-data/tops.js"></script>
+<script type="module" src="/script.js" ></script>
 </body>
 </html>

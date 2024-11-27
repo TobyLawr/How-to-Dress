@@ -1,5 +1,7 @@
 
  import { mensTops, womensTops } from './clothing-data/tops.js';
+ import { mensBottoms, womensBottoms } from './clothing-data/bottoms.js';
+ import { accesories, outerwear } from './clothing-data/others.js';
 const weatherInput = document.getElementById("weather-input");
 const weatherDisplay = document.getElementById("weather-display")
 const mood = document.getElementById("mood");

@@ -88,15 +88,19 @@ function displayWeather(refinedData) {
     });
 }
 
-function getOutfitSuggestion(weatherData, formData) {
+async function getOutfitSuggestion(weatherData, formData) {
     const { mood, gender } = formData;
     console.log(mood, gender)
-    const tempCategory = getTemperatureCategory(weatherData.forecast.forecastday);
-    const conditionCategory = getConditionCategory(weatherData.forecast.forecastday);
-    console.log(conditionCategory)
+    const tempCategory = await getTemperatureCategory(weatherData.forecast.forecastday);
+    const conditionCategory = await getConditionCategory(weatherData.forecast.forecastday);
+    let suggestedTops =[]
+    //for loop
+    for (let i = 0; i < tempCategory.length; i++) {
+        suggestedTops.push(getClothingSuggestions(mensTops, mood, conditionCategory[i], tempCategory[i]))
+    
+    }
     // TODO: Women's tops
-    const suggestedTop = getClothingSuggestion(mensTops, mood, conditionCategory, tempCategory)
-    console.log(suggestedTop)
+    console.log(suggestedTops)
 
 }
 
@@ -131,32 +135,25 @@ function getTemperatureCategory(temperatures) {
     
 }
 
-function getClothingSuggestion(clothing, mood, condition, temperature) {
-    let bestMatch = null;
-    let highestScore = 0;
+function getClothingSuggestions(clothing, mood, condition, temperature) {
     let bestMatchArray = []
     
+    clothing.forEach(item => {
+        let score = 0;
+        console.log(mood)
+        // Check matches and increment score for each match
+        if (item.moods.includes(mood.toLowerCase())) score++;
+        if (item.temperatures.includes(temperature.toLowerCase())) score++;
+        if (item.conditions.flat().includes(condition.toLowerCase())) score++;
 
-    for (let i = 0; i < 3; i++) {
-        clothing.forEach(item => {
-            let score = 0;
-            console.log(mood)
-            // Check matches and increment score for each match
-            if (item.moods.includes(mood.toLowerCase())) score++;
-            if (item.conditions.flat().includes(condition[i].toLowerCase())) score++;
-            if (item.temperatures.includes(temperature[i].toLowerCase())) score++;
+        bestMatchArray.push({
+            name: item.name,
+            score
+,        })
+    });
     
-            // Update the best match if the current top has a higher score
-            if (score > highestScore) {
-                highestScore = score;
-                bestMatch = item;
-            }
-        });
-        bestMatchArray.push(bestMatch.name);
-    }
-
-
-    return bestMatchArray;
+    
+    return bestMatchArray.sort((a, b) => b.score - a.score);
 };
 
 // let weatherInfo = [{

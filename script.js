@@ -1,7 +1,7 @@
 
  import { mensTops, womensTops } from './clothing-data/tops.js';
  import { mensBottoms, womensBottoms } from './clothing-data/bottoms.js';
- import { accesories, outerwear } from './clothing-data/others.js';
+ import { accessories, outerwear } from './clothing-data/others.js';
 const weatherInput = document.getElementById("weather-input");
 const weatherDisplay = document.getElementById("weather-display")
 const mood = document.getElementById("mood");
@@ -64,7 +64,9 @@ function getRefinedWeatherData(weather) {
         gender: gender.value,
     };
 
-    getOutfitSuggestion(weather, formData);
+    const outfitSuggestion = getOutfitSuggestion(weather, formData);
+    displayOutfitSuggestion(outfitSuggestion, refinedData)
+    console.log(outfitSuggestion)
 }
 
 
@@ -88,20 +90,47 @@ function displayWeather(refinedData) {
     });
 }
 
-async function getOutfitSuggestion(weatherData, formData) {
+function getOutfitSuggestion(weatherData, formData) {
     const { mood, gender } = formData;
     console.log(mood, gender)
-    const tempCategory = await getTemperatureCategory(weatherData.forecast.forecastday);
-    const conditionCategory = await getConditionCategory(weatherData.forecast.forecastday);
+    const tempCategory = getTemperatureCategory(weatherData.forecast.forecastday);
+    const conditionCategory = getConditionCategory(weatherData.forecast.forecastday);
     let suggestedTops =[]
+    let suggestedBottoms = []
+    let suggestedAccessories = []
+    let suggestedOuterwear = []
+    console.log(tempCategory)
+
     //for loop
     for (let i = 0; i < tempCategory.length; i++) {
-        suggestedTops.push(getClothingSuggestions(mensTops, mood, conditionCategory[i], tempCategory[i]))
-    
-    }
-    // TODO: Women's tops
-    console.log(suggestedTops)
+        if (gender === "male"){
 
+            suggestedTops.push(getClothingSuggestions(mensTops, mood, conditionCategory[i], tempCategory[i]))
+            suggestedBottoms.push(getClothingSuggestions(mensBottoms, mood, conditionCategory[i], tempCategory[i]))
+        }
+        else {
+            suggestedTops.push(getClothingSuggestions(womensTops, mood, conditionCategory[i], tempCategory[i]))
+            suggestedBottoms.push(getClothingSuggestions(womensBottoms, mood, conditionCategory[i], tempCategory[i]))
+        }
+        suggestedAccessories.push(getClothingSuggestions(accessories, mood, conditionCategory[i], tempCategory[i]))
+        if (tempCategory[i] != "hot") {
+            suggestedOuterwear.push(getClothingSuggestions(outerwear, mood, conditionCategory[i], tempCategory[i]))
+        }
+        else {
+            suggestedOuterwear.push(null)
+        }
+    }
+    // console.log(suggestedTops)
+    // console.log(suggestedBottoms)
+    // console.log(suggestedAccessories)
+    // console.log(suggestedOuterwear)
+
+    return {
+        tops: suggestedTops, 
+        bottoms: suggestedBottoms,
+        accessories: suggestedAccessories,
+        outerwear: suggestedOuterwear
+    }
 }
 
 function getConditionCategory(conditions) {
@@ -145,41 +174,42 @@ function getClothingSuggestions(clothing, mood, condition, temperature) {
         if (item.moods.includes(mood.toLowerCase())) score++;
         if (item.temperatures.includes(temperature.toLowerCase())) score++;
         if (item.conditions.flat().includes(condition.toLowerCase())) score++;
+        if (score > 0) {
 
+        
         bestMatchArray.push({
             name: item.name,
             score
 ,        })
+        }
     });
     
     
     return bestMatchArray.sort((a, b) => b.score - a.score);
 };
 
-// let weatherInfo = [{
-//     date: '',
-//     icon: '',
-//     conition: '',
-//     avgTemp: ''
-// }, {
-//     date: '',
-//     icon: '',
-//     conition: '',
-//     avgTemp: ''
-// }, {
-//     date: '',
-//     icon: '',
-//     conition: '',
-//     avgTemp: ''
-// }]
+function displayOutfitSuggestion(outfitSuggestion, refinedData) {
+    const outfitDisplay = document.getElementById("outfit-display"); // Add an element with this ID in your HTML
+    outfitDisplay.innerHTML = ""; // Clear previous suggestions
 
-// function getTopSuggestion(mood, gender, condition, temperature ){
-//     const filteredTops = mensTops.filter(top => {
-//         const moodMatch = top.moods.includes(mood)
-//         const conditionsMatch = top.conditions.includes(condition)
-//         const temperatureSearch = top.temperatures.includes(temperature)
-//         return moodMatch && conditionsMatch && temperaturesMatch
-//     });
+    // Loop through the outfit suggestions for each day
+    outfitSuggestion.tops.forEach((_, index) => {
+        const outfitCard = document.createElement("div");
+        outfitCard.style.border = "1px solid #ccc";
+        outfitCard.style.padding = "10px";
+        outfitCard.style.margin = "10px";
 
-//     return filteredTops
-// }
+        // Get the date for the current day from refinedData
+        const date = refinedData[index].date;
+
+        outfitCard.innerHTML = `
+            <h3>${date}</h3>
+            <p><strong>Top:</strong> ${outfitSuggestion.tops[index]?.[0]?.name || "No suggestion"}</p>
+            <p><strong>Bottom:</strong> ${outfitSuggestion.bottoms[index]?.[0]?.name || "No suggestion"}</p>
+            <p><strong>Accessory:</strong> ${outfitSuggestion.accessories[index]?.[0]?.name || "No suggestion"}</p>
+            <p><strong>Outerwear:</strong> ${outfitSuggestion.outerwear[index]?.[0]?.name || "No suggestion"}</p>
+        `;
+        outfitDisplay.appendChild(outfitCard);
+    });
+}
+

@@ -1,4 +1,4 @@
-export const accesories = [
+export const accessories = [
     {
         name: 'sunglasses',
         moods: ["confident", "elegant", "playful"],

@@ -38,3 +38,8 @@ body {
     min-width: 250px; /* Ensures cards don’t get too small on smaller screens */
     max-width: 300px; /* Optional: Caps card size */
 }
+
+.card-wrapper {
+    display: flex;
+    gap: 8px;
+}

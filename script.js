@@ -245,6 +245,19 @@ function getClothingSuggestions(clothing, mood, condition, temperature) {
   return bestMatchArray.sort((a, b) => b.score - a.score);
 }
 
+function getAmazonLink(suggestion) {
+  const genderValue = gender.value ?? "";
+  if (!suggestion) {
+    return "No suggestion";
+  } else {
+    return (
+      '<a target="_blank" class="card-link" href="https://www.amazon.ca/s?k=' +
+      [genderValue, ...suggestion.split(" ")].join("+") +
+      '">See other suggestions</a>'
+    );
+  }
+}
+
 function displayOutfitSuggestion(outfitSuggestion, refinedData) {
   const outfitPanes = [
     document.getElementById("today-tab-pane"),
@@ -254,63 +267,40 @@ function displayOutfitSuggestion(outfitSuggestion, refinedData) {
 
   // Loop through the outfit suggestions for each day
   outfitSuggestion.tops.forEach((_, index) => {
-    const outfitCard = document.createElement("div");
-    outfitCard.style.border = "1px solid #ccc";
-    outfitCard.style.padding = "10px";
-    outfitCard.style.margin = "10px";
-
-    function getAmazonLink(suggestion) {
-      const genderValue = gender.value ?? "";
-      if (!suggestion) {
-        return "No suggestion";
-      } else {
-        return (
-          '<a target="_blank" class="card-link" href="https://www.amazon.ca/s?k=' +
-          [genderValue, ...suggestion.split(" ")].join("+") +
-          '">See other suggestions</a>'
-        );
-      }
-    }
-    console.log(outfitSuggestion);
-    outfitCard.innerHTML = `
-            ${getClothingCard(
-              outfitSuggestion.tops[index]?.[0]?.imageSrc,
-              "Top",
-              outfitSuggestion.tops[index]?.[0]?.name,
-              "#hi-toby",
-              getAmazonLink(outfitSuggestion.tops[index]?.[0]?.name)
-            )}
-            <p><strong>Bottom:</strong> ${getAmazonLink(
-              outfitSuggestion.bottoms[index]?.[0]?.name
-            )}</p>
-            <p><strong>Accessory:</strong> ${getAmazonLink(
-              outfitSuggestion.accessories[index]?.[0]?.name
-            )}</p>
-            <p><strong>Outerwear:</strong> ${getAmazonLink(
-              outfitSuggestion.outerwear[index]?.[0]?.name
-            )}</p>
-        `;
-
-    outfitCard.innerHTML = `
-            ${getClothingCard(
-              outfitSuggestion.tops[index]?.[0]?.imageSrc,
-              "Bottom",
-              outfitSuggestion.tops[index]?.[0]?.name,
-              "#hi-toby",
-              getAmazonLink(outfitSuggestion.tops[index]?.[0]?.name)
-            )}
-            <p><strong>Bottom:</strong> ${getAmazonLink(
-              outfitSuggestion.bottoms[index]?.[0]?.name
-            )}</p>
-            <p><strong>Accessory:</strong> ${getAmazonLink(
-              outfitSuggestion.accessories[index]?.[0]?.name
-            )}</p>
-            <p><strong>Outerwear:</strong> ${getAmazonLink(
-              outfitSuggestion.outerwear[index]?.[0]?.name
-            )}</p>
-        `;
     outfitPanes[index].innerHTML = "";
-    outfitPanes[index].appendChild(outfitCard);
+    const clothes = [
+      outfitSuggestion.tops[index]?.[0],
+      outfitSuggestion.bottoms[index]?.[0],
+      outfitSuggestion.accessories[index]?.[0],
+      outfitSuggestion.outerwear[index]?.[0],
+    ];
+
+    clothes.forEach((item) => {
+      const outfitCard = document.createElement("div");
+      outfitCard.classList.add("card-wrapper");
+
+      console.log("suggestions", outfitSuggestion);
+      outfitCard.innerHTML = `
+        ${getClothingCard(
+          item.imageSrc,
+          "Top",
+          item.name,
+          "#hi-toby",
+          getAmazonLink(item.name)
+        )}
+      `;
+      outfitPanes[index].appendChild(outfitCard);
+    });
+
+    // <p><strong>Bottom:</strong> ${getAmazonLink(
+    //   outfitSuggestion.bottoms[index]?.[0]?.name
+    // )}</p>
+    // <p><strong>Accessory:</strong> ${getAmazonLink(
+    //   outfitSuggestion.accessories[index]?.[0]?.name
+    // )}</p>
+    // <p><strong>Outerwear:</strong> ${getAmazonLink(
+    //   outfitSuggestion.outerwear[index]?.[0]?.name
+    // )}</p>
   });
 }
 

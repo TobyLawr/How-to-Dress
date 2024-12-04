@@ -291,16 +291,6 @@ function displayOutfitSuggestion(outfitSuggestion, refinedData) {
       `;
       outfitPanes[index].appendChild(outfitCard);
     });
-
-    // <p><strong>Bottom:</strong> ${getAmazonLink(
-    //   outfitSuggestion.bottoms[index]?.[0]?.name
-    // )}</p>
-    // <p><strong>Accessory:</strong> ${getAmazonLink(
-    //   outfitSuggestion.accessories[index]?.[0]?.name
-    // )}</p>
-    // <p><strong>Outerwear:</strong> ${getAmazonLink(
-    //   outfitSuggestion.outerwear[index]?.[0]?.name
-    // )}</p>
   });
 }
 
@@ -313,7 +303,7 @@ function getClothingCard(
 ) {
   return `
     <div class="card" style="width: 18rem;">
-        <img src="${imageSrc}" class="card-img-top" alt="...">
+        <img src="${imageSrc}" class="card-img-top object-fit-scale" style="height:18rem;" alt="...">
         <div class="card-body">
             <h5 class="card-title">${title}</h5>
             <p class="card-text">${text}</p>

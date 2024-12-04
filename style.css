@@ -39,6 +39,10 @@ body {
     max-width: 300px; /* Optional: Caps card size */
 }
 
+.tab-content > .active {
+    display: flex;
+    gap: 8px;
+}
 .card-wrapper {
     display: flex;
     gap: 8px;

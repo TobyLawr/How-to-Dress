@@ -309,7 +309,7 @@ function getClothingCard(
             <p class="card-text">${text}</p>
         </div>
         <div class="card-body">
-            <a href="${topSuggestionLink}" class="card-link">Card link</a>
+            <a href="${topSuggestionLink}" class="card-link">Buy Now!</a>
             ${additionalSuggestionsLink}
         </div>
     </div>

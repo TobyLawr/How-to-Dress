@@ -275,7 +275,9 @@ function displayOutfitSuggestion(outfitSuggestion, refinedData) {
       outfitSuggestion.outerwear[index]?.[0],
     ];
 
-    clothes.forEach((item) => {
+    const titles = ["Top", "Bottom", "Accessory", "Outerwear"];
+
+    clothes.forEach((item, i) => {
       const outfitCard = document.createElement("div");
       outfitCard.classList.add("card-wrapper");
 
@@ -283,7 +285,7 @@ function displayOutfitSuggestion(outfitSuggestion, refinedData) {
       outfitCard.innerHTML = `
         ${getClothingCard(
           item.imageSrc,
-          "Top",
+          titles[i],
           item.name,
           "#hi-toby",
           getAmazonLink(item.name)

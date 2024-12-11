@@ -8,14 +8,17 @@ import {
 
 const weatherInput = document.getElementById("weather-input");
 const weatherDisplay = document.getElementById("weather-display");
+const outfitDisplay = document.getElementById("outfit-display");
+
 const mood = document.getElementById("mood");
 const gender = document.getElementById("gender");
 const API_KEY = "12c5fef179da4b398ab192835241311";
 const SearchButton = document.getElementById("search-button");
 
-SearchButton.addEventListener("click", () => {
+SearchButton.addEventListener("click", async () => {
   console.log("CLICKED!");
-  onSearch();
+  outfitDisplay.classList.remove("hidden");
+  await onSearch();
 });
 
 async function onSearch() {
@@ -226,6 +229,7 @@ function getTemperatureCategory(temperatures) {
 
 function getClothingSuggestions(clothing, mood, condition, temperature) {
   let bestMatchArray = [];
+  console.log(clothing);
 
   clothing.forEach((item) => {
     let score = 0;
@@ -237,6 +241,7 @@ function getClothingSuggestions(clothing, mood, condition, temperature) {
       bestMatchArray.push({
         name: item.name,
         imageSrc: item.imageSrc,
+        linkSrc: item.linkSrc,
         score,
       });
     }
@@ -259,6 +264,7 @@ function getAmazonLink(suggestion) {
 }
 
 function displayOutfitSuggestion(outfitSuggestion, refinedData) {
+  outfitDisplay.classList.remove("hidden");
   const outfitPanes = [
     document.getElementById("today-tab-pane"),
     document.getElementById("tomorrow-tab-pane"),
@@ -287,7 +293,7 @@ function displayOutfitSuggestion(outfitSuggestion, refinedData) {
           item.imageSrc,
           titles[i],
           item.name,
-          "#hi-toby",
+          item.linkSrc,
           getAmazonLink(item.name)
         )}
       `;
@@ -323,9 +329,9 @@ function updateTabLabels(forecastData) {
   const tomorrowTab = document.getElementById("tomorrow-tab");
   const nextDayTab = document.getElementById("next-day-tab");
 
-  // Format dates
+  // Format dates considering timezone
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString); // Parse the date
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
@@ -334,9 +340,7 @@ function updateTabLabels(forecastData) {
     return date.toLocaleDateString("en-US", { weekday: "long" });
   };
 
-  console.log(formatDate(forecastData[0].date));
-
-  // Update tab labels using the forecast data
+  // Adjust tab labels
   todayTab.textContent = `Today (${formatDate(forecastData[0].date)})`;
   tomorrowTab.textContent = `Tomorrow (${formatDate(forecastData[1].date)})`;
   nextDayTab.textContent = `${formatWeekday(

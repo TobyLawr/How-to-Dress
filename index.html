@@ -36,25 +36,27 @@
 </select>
 
 <button type="button" id ="search-button" > Search </button> 
-<div id="outfit-display"></div>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="today-tab" data-bs-toggle="tab" data-bs-target="#today-tab-pane" type="button" role="tab" aria-controls="today-tab-pane" aria-selected="true">Today</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tomorrow-tab" data-bs-toggle="tab" data-bs-target="#tomorrow-tab-pane" type="button" role="tab" aria-controls="tomorrow-tab-pane" aria-selected="false">Tomorrow</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="next-day-tab" data-bs-toggle="tab" data-bs-target="#next-day-tab-pane" type="button" role="tab" aria-controls="next-day-tab-pane" aria-selected="false">Next Day</button>
-    </li>
-    
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="today-tab-pane" role="tabpanel" aria-labelledby="today-tab" tabindex="0">...</div>
-    <div class="tab-pane fade" id="tomorrow-tab-pane" role="tabpanel" aria-labelledby="tomorrow-tab" tabindex="0">...</div>
-    <div class="tab-pane fade" id="next-day-tab-pane" role="tabpanel" aria-labelledby="next-day-tab" tabindex="0">...</div>
-   
-  </div>
+<div id="outfit-display" class="hidden">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="today-tab" data-bs-toggle="tab" data-bs-target="#today-tab-pane" type="button" role="tab" aria-controls="today-tab-pane" aria-selected="true">Today</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tomorrow-tab" data-bs-toggle="tab" data-bs-target="#tomorrow-tab-pane" type="button" role="tab" aria-controls="tomorrow-tab-pane" aria-selected="false">Tomorrow</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="next-day-tab" data-bs-toggle="tab" data-bs-target="#next-day-tab-pane" type="button" role="tab" aria-controls="next-day-tab-pane" aria-selected="false">Next Day</button>
+      </li>
+      
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="today-tab-pane" role="tabpanel" aria-labelledby="today-tab" tabindex="0">...</div>
+      <div class="tab-pane fade" id="tomorrow-tab-pane" role="tabpanel" aria-labelledby="tomorrow-tab" tabindex="0">...</div>
+      <div class="tab-pane fade" id="next-day-tab-pane" role="tabpanel" aria-labelledby="next-day-tab" tabindex="0">...</div>
+     
+    </div>
+
+</div>
 </div>
 
 <div id="weather-display"></div>

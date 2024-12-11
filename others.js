@@ -115,7 +115,7 @@ export const womensOuterwear = [
   },
   {
     name: "denim jacket",
-    imageSrc: "https://m.media-amazon.com/images/I/51iO0GSmapL._AC_SX522_.jpg",
+    imageSrc: "https://m.media-amazon.com/images/I/51iO0GSmapL._AC_SX679_.jpg",
     linkSrc:
       "https://www.amazon.ca/Levis-Womens-Original-Trucker-X-Large/dp/B071DMMPDL",
     moods: ["casual", "playful"],

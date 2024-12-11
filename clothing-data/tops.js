@@ -162,6 +162,8 @@ export const mensTops = [
   {
     name: "hoodie",
     imageSrc: "https://m.media-amazon.com/images/I/61SCdheDg9L._AC_SX569_.jpg",
+    linkSrc:
+      "https://www.amazon.ca/JMIERR-Hoodies-Sweatshirt-Drawstring-Athletic/dp/B0CG4JFMKK",
     moods: [
       "casual",
       "confident",
@@ -364,6 +366,8 @@ export const womensTops = [
   {
     name: "hoodie",
     imageSrc: "https://m.media-amazon.com/images/I/71ggU4lJAsL._AC_SY741_.jpg",
+    linkSrc:
+      "https://www.amazon.ca/Jhsnjnr-Hoodies-Oversized-Pullover-Sweatshirt/dp/B0CGHY1XM1",
     moods: [
       "casual",
       "confident",
@@ -373,5 +377,6 @@ export const womensTops = [
       "mysterious",
     ],
     conditions: ["sunny", "clear", "partly cloudy"],
+    temperatures: ["mild", "cool", "cold"],
   },
 ];

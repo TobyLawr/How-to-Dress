@@ -40,6 +40,7 @@ body {
 .tab-content > .active {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 .card-wrapper {
     display: flex;

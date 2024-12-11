@@ -16,15 +16,11 @@ const API_KEY = "12c5fef179da4b398ab192835241311";
 const SearchButton = document.getElementById("search-button");
 
 SearchButton.addEventListener("click", async () => {
-  console.log("CLICKED!");
   outfitDisplay.classList.remove("hidden");
   await onSearch();
 });
 
 async function onSearch() {
-  console.log(weatherInput.value);
-  console.log(mood.value);
-  console.log(gender.value);
   const weather = await getWeather();
   getRefinedWeatherData(weather);
 }
@@ -50,7 +46,6 @@ async function getWeather() {
 function getRefinedWeatherData(weather) {
   const forecastdays = weather.forecast.forecastday;
 
-  console.log(forecastdays);
   // Refine data for display
   const refinedData = forecastdays.map(({ day, date }) => ({
     avgtemp_c: day.avgtemp_c,
@@ -63,7 +58,6 @@ function getRefinedWeatherData(weather) {
 
   updateTabLabels(refinedData);
 
-  console.log(refinedData);
   displayWeather(refinedData);
 
   // Prepare form data and call getOutfitSuggestion
@@ -74,7 +68,6 @@ function getRefinedWeatherData(weather) {
 
   const outfitSuggestion = getOutfitSuggestion(weather, formData);
   displayOutfitSuggestion(outfitSuggestion, refinedData);
-  console.log(outfitSuggestion);
 }
 
 function displayWeather(refinedData) {
@@ -100,7 +93,6 @@ function displayWeather(refinedData) {
 
 function getOutfitSuggestion(weatherData, formData) {
   const { mood, gender } = formData;
-  console.log(mood, gender);
   const tempCategory = getTemperatureCategory(weatherData.forecast.forecastday);
   const conditionCategory = getConditionCategory(
     weatherData.forecast.forecastday
@@ -109,7 +101,6 @@ function getOutfitSuggestion(weatherData, formData) {
   let suggestedBottoms = [];
   let suggestedAccessories = [];
   let suggestedOuterwear = [];
-  console.log(tempCategory);
 
   //for loop
   for (let i = 0; i < tempCategory.length; i++) {
@@ -177,18 +168,6 @@ function getOutfitSuggestion(weatherData, formData) {
         tempCategory[i]
       )
     );
-    if (tempCategory[i] != "hot") {
-      suggestedOuterwear.push(
-        getClothingSuggestions(
-          mensOuterwear,
-          mood,
-          conditionCategory[i],
-          tempCategory[i]
-        )
-      );
-    } else {
-      suggestedOuterwear.push(null);
-    }
   }
 
   return {
@@ -212,7 +191,7 @@ function getConditionCategory(conditions) {
 function getTemperatureCategory(temperatures) {
   const tempArray = temperatures.map((weatherInfo) => {
     const avgTemp = weatherInfo.day.avgtemp_c;
-    console.log(avgTemp);
+
     // return 'warm' or 'mild', etc
     if (avgTemp > 20) {
       return "hot";
@@ -229,7 +208,6 @@ function getTemperatureCategory(temperatures) {
 
 function getClothingSuggestions(clothing, mood, condition, temperature) {
   let bestMatchArray = [];
-  console.log(clothing);
 
   clothing.forEach((item) => {
     let score = 0;
@@ -284,10 +262,13 @@ function displayOutfitSuggestion(outfitSuggestion, refinedData) {
     const titles = ["Top", "Bottom", "Accessory", "Outerwear"];
 
     clothes.forEach((item, i) => {
+      if (!item) {
+        return;
+      }
+
       const outfitCard = document.createElement("div");
       outfitCard.classList.add("card-wrapper");
 
-      console.log("suggestions", outfitSuggestion);
       outfitCard.innerHTML = `
         ${getClothingCard(
           item.imageSrc,
@@ -331,16 +312,21 @@ function updateTabLabels(forecastData) {
 
   // Format dates considering timezone
   const formatDate = (dateString) => {
-    const date = new Date(dateString); // Parse the date
+    const [year, month, day] = dateString.split("-").map(Number);
+    const date = new Date(year, month - 1, day); // Create the date explicitly in local time
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
   const formatWeekday = (dateString) => {
-    const date = new Date(dateString);
+    const dateParts = dateString.split("-");
+    const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]); // Month is 0-indexed
+
+    // const date = new Date(dateString);
     return date.toLocaleDateString("en-US", { weekday: "long" });
   };
 
   // Adjust tab labels
+
   todayTab.textContent = `Today (${formatDate(forecastData[0].date)})`;
   tomorrowTab.textContent = `Tomorrow (${formatDate(forecastData[1].date)})`;
   nextDayTab.textContent = `${formatWeekday(

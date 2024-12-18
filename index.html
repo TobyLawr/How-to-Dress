@@ -10,14 +10,18 @@
     <div class="center relative">
         
     <h1> How to dress today</h1>
+
     <form>
-        <label for="weather-input"> City: </label>
-        <input type="text" id="weather-input" name="weather-input">
-    </form>
+      <div class="form-group">
+        <label for="weather-input">City</label>
+        <input type="email" class="form-control" id="weather-input" aria-describedby="emailHelp" placeholder="Enter city">
+      </div>
+
+
 
 
 <label for="mood">Mood:</label>
-<select id="mood">
+<select class="form-control form-control-lg" id="mood">
     <option value="Casual">Casual</option>
     <option value="confident">Confident</option>
     <option value="elegant">Elegant</option>
@@ -29,13 +33,13 @@
 </select>
 
 <label for="gender">Gender:</label>
-<select id="gender">
+<select class="form-control form-control-lg" id="gender">
     <option value="male">Male</option>
     <option value="female">Female</option>
 
 </select>
 
-<button type="button" id ="search-button" > Search </button> 
+<button class="btn btn-primary" type="button" id ="search-button" > Search </button> 
 
 
 <details class="hidden">

@@ -8,7 +8,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     background-image: url("https://images5.alphacoders.com/132/1327980.png");
     background-color: #cccccc;
     margin: 0;
@@ -16,7 +15,7 @@ body {
 
 .relative {
     display:flex;
-    height: 99%;
+    min-height: 99vh;
     width: 90%;
     flex-direction: column;
     justify-content: flex-start;
@@ -24,6 +23,7 @@ body {
     /* position: relative; */
     background-color: #12b770;
     /* left: 300px; */
+    padding: 1.25rem;
 }
 
 #outfit-display {
@@ -42,9 +42,21 @@ body {
     gap: 8px;
     flex-wrap: wrap;
 }
-.card-wrapper {
+
+
+.card {
+    width: 18rem;
+}
+
+.card img {
+    height: 18rem;
+}
+
+.suggestion-links {
+    --bs-card-spacer-x: 0;
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 0.5rem
 }
 
 #myTab {
@@ -95,5 +107,18 @@ summary {
         display: none;
     }
 
-    
+    .card {
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        width: 100%;
+        gap: 1rem;
+        max-height: 14rem;
+    }
+
+    .card img {
+        height: 100%;
+    }
+
+
+
 }

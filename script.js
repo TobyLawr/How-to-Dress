@@ -16,13 +16,25 @@ const API_KEY = "12c5fef179da4b398ab192835241311";
 const SearchButton = document.getElementById("search-button");
 
 SearchButton.addEventListener("click", async () => {
+  const detailsElement = document.querySelector("details");
+  const weatherDisplay = document.getElementById("weather-display");
+  weatherDisplay.classList.remove("hidden");
+  detailsElement.classList.remove("hidden");
   outfitDisplay.classList.remove("hidden");
   await onSearch();
 });
 
 async function onSearch() {
+  const detailsElement = document.querySelector("details");
   const weather = await getWeather();
-  getRefinedWeatherData(weather);
+
+  if (weather) {
+    getRefinedWeatherData(weather);
+    detailsElement.classList.remove("hidden"); // Show the details section on success
+  } else {
+    detailsElement.classList.add("hidden"); // Hide details on failure
+    alert("Unable to fetch weather data. Please try again.");
+  }
 }
 
 async function getWeather() {
@@ -241,6 +253,7 @@ function getAmazonLink(suggestion) {
 
 function displayOutfitSuggestion(outfitSuggestion, refinedData) {
   outfitDisplay.classList.remove("hidden");
+  weatherDisplay.classList.remove("hidden");
   const outfitPanes = [
     document.getElementById("today-tab-pane"),
     document.getElementById("tomorrow-tab-pane"),
@@ -265,7 +278,7 @@ function displayOutfitSuggestion(outfitSuggestion, refinedData) {
       }
 
       const outfitCard = document.createElement("div");
-      outfitCard.classList.add("card-wrapper");
+      outfitCard.classList.add("card");
 
       outfitCard.innerHTML = `
         ${getClothingCard(
@@ -289,17 +302,18 @@ function getClothingCard(
   additionalSuggestionsLink
 ) {
   return `
-    <div class="card" style="width: 18rem;">
-        <img src="${imageSrc}" class="card-img-top object-fit-scale" style="height:18rem;" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">${title}</h5>
-            <p class="card-text">${text}</p>
+        <img src="${imageSrc}" class="card-img-top object-fit-scale"  alt="...">
+        <div>
+          <div class="card-body">
+              <h5 class="card-title">${title}</h5>
+              <p class="card-text">${text}</p>
+              <div class="suggestion-links">
+                <a href="${topSuggestionLink}" class="card-link">Buy Now!</a>
+                ${additionalSuggestionsLink}
+              </div>
+          </div>
         </div>
-        <div class="card-body">
-            <a href="${topSuggestionLink}" class="card-link">Buy Now!</a>
-            ${additionalSuggestionsLink}
-        </div>
-    </div>
+
 `;
 }
 

@@ -77,13 +77,11 @@ function displayWeather(refinedData) {
     ({ date, avgtemp_c, icon, condition, mintemp_c, maxtemp_c }) => {
       const weatherCard = document.createElement("div");
       weatherCard.innerHTML = `
-            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+            <div class="weather-card">
                 <h3>${date}</h3>
                 <img src="https:${icon}" alt="${condition}" style="width: 50px; height: 50px;" />
-                <p>Condition: ${condition}</p>
-                <p>High Temperature: ${Math.round(maxtemp_c)}°C</p>
-                <p>Low Temperature: ${Math.round(mintemp_c)}°C</p>
-                
+                <p>${condition}</p>
+                <p>${Math.round(maxtemp_c)}°C / ${Math.round(mintemp_c)}°C</p>
             </div>
         `;
       weatherDisplay.appendChild(weatherCard);
@@ -306,9 +304,10 @@ function getClothingCard(
 }
 
 function updateTabLabels(forecastData) {
-  const todayTab = document.getElementById("today-tab");
-  const tomorrowTab = document.getElementById("tomorrow-tab");
-  const nextDayTab = document.getElementById("next-day-tab");
+  const todayTabDate = document.querySelector("#today-tab .date");
+  const tomorrowTabDate = document.querySelector("#tomorrow-tab .date");
+  const nextDayTabLabel = document.querySelector("#next-day-tab .label");
+  const nextDayTabDate = document.querySelector("#next-day-tab .date");
 
   // Format dates considering timezone
   const formatDate = (dateString) => {
@@ -327,9 +326,34 @@ function updateTabLabels(forecastData) {
 
   // Adjust tab labels
 
-  todayTab.textContent = `Today (${formatDate(forecastData[0].date)})`;
-  tomorrowTab.textContent = `Tomorrow (${formatDate(forecastData[1].date)})`;
-  nextDayTab.textContent = `${formatWeekday(
-    forecastData[2].date
-  )} (${formatDate(forecastData[2].date)})`;
+  todayTabDate.textContent = `(${formatDate(forecastData[0].date)})`;
+  tomorrowTabDate.textContent = `(${formatDate(forecastData[1].date)})`;
+  nextDayTabLabel.textContent = `${formatWeekday(forecastData[2].date)}`;
+  nextDayTabDate.textContent = `(${formatDate(forecastData[2].date)})`;
+
+  const dateSpans = document.querySelectorAll(".date");
+
+  // Function to handle parentheses based on screen size
+  const handleScreenSize = (e) => {
+    dateSpans.forEach((span) => {
+      if (e.matches) {
+        // Screen width is below 768px - remove parentheses
+        span.textContent = span.textContent.replace(/^\(|\)$/g, "");
+      } else {
+        // Screen width is above 768px - add parentheses
+        if (!span.textContent.startsWith("(")) {
+          span.textContent = `(${span.textContent})`;
+        }
+      }
+    });
+  };
+
+  // Create a media query
+  const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+  // Initial check
+  handleScreenSize(mediaQuery);
+
+  // Add listener for screen size changes
+  mediaQuery.addListener(handleScreenSize);
 }

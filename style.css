@@ -60,3 +60,40 @@ body {
 .hidden {
     display: none !important; 
 }
+
+#weather-display {
+    display: flex;
+    justify-content: center;
+}
+
+details {
+    width: 100%;
+}
+
+summary {
+    text-align: center;
+}
+
+.weather-card {
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    margin: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    #weather-display {
+        flex-direction: column;
+    }
+
+    .weather-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+    }
+
+    .label {
+        display: none;
+    }
+
+    
+}

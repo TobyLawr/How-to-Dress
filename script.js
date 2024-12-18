@@ -26,7 +26,7 @@ async function onSearch() {
 }
 
 async function getWeather() {
-  const url = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${weatherInput.value}&days=3&aqi=no&alerts=no`;
+  const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${weatherInput.value}&days=3&aqi=no&alerts=no`;
 
   try {
     const response = await fetch(url);
